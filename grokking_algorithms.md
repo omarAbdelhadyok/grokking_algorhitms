@@ -4,8 +4,8 @@
 *Page 1-19*
 
 Algorithms is a set of instructions for accomplishing a task. Every 
-piece of code could be called an algorithm. We learn about the fast 
-or the ones that proved solving interesting problems.
+piece of code could be called an algorithm. We learn about the fast, or 
+the ones that proved solving interesting problems.
 
 ### Binary Search  
 It is an algorithm that takes in a sorted list of elements. If an 
@@ -78,7 +78,7 @@ find the smallest element in each iteration.
 So it takes `O(n^2)` to sort the array.
 
 * Remember constants in Big O is ignored, you might say that each 
-iteration you go over less elements `(n-1)`. While that's true, yet
+iteration you go over fewer elements `(n-1)`. While that's true, yet
 Big O ignores constants.
 
 ### Example : 
@@ -173,22 +173,22 @@ the one we just popped off.
 
 ### Divide and Conquer  
 Suppose you're a farmer with a plot of land.  
-The land is **1680** Meters wide and the height is **640** Meters.
+The land is **1680** Meters wide, and the height is **640** Meters.
 You want to divide this farm evenly into *square* plots. You want
 the plots to be as big as possible.
 
 How to figure out the largest size you can use for a plot of land? 
 Use D&C.  
 To solve the problem using D&C there are two steps :  
-1- Figure out the base case. This should be the simplest possible 
+1. Figure out the base case. This should be the simplest possible 
 case.  
-2- Divide and decrease your problem until it becomes the base case.  
+2. Divide and decrease your problem until it becomes the base case.  
 
 Let’s use D&C to find the solution to this problem. What is the largest
 square size you can use?  
 First, figure out the base case. The easiest case would be if one side was
 a multiple of the other side.  
-Suppose one side is 25 meters (m) and the other side is 50 m. Then the
+Suppose one side is 25 meters (m), and the other side is 50 m. Then the
 largest box you can use is 25 m × 25 m. You need two of those boxes to
 divide up the land.  
 
@@ -280,10 +280,10 @@ sub-arrays and then combine the results, you get a sorted array!
 any pivot.  
 
 Here are the steps :  
-1- Pick a pivot.  
-2- Partition the array into two sub-arrays: elements less than 
+1. Pick a pivot.  
+2. Partition the array into two sub-arrays: elements less than 
 the pivot and elements greater than the pivot.  
-3- Call quicksort recursively on the two sub-arrays.  
+3. Call quicksort recursively on the two sub-arrays.  
 
 Here's a code example for quick sort :  
 ```java
@@ -377,17 +377,17 @@ every item in the array to find your item. If the array is
 sorted you can use binary search. Simple search as we know 
 takes O(n), while binary search takes O(log n). But what 
 if you have someone that memorizes all the items in the array.
-You can just ask him / her about the item and she / he will 
+You can just ask him / her about the item, and she / he will 
 reply instantly. That will take O(1). Which is instant.
 That’s where hash functions come in.
 
 ### Hash Functions  
 A hash function is a function where you put a string (string here 
-means any kind of data - a sequence of bytes) and you get back 
+means any kind of data - a sequence of bytes), and you get back 
 a number.
 
 In technical terminology, we'd say that a hash function maps 
-strings to numbers. There are some requirement to hash function :  
+Strings to Numbers. There are some requirement to hash function :  
 - It needs to be consistent. For example, suppose you put in "Apple" 
 and get back 4. Every time you put in "Apple", you should get 4 back. 
 Without this your hash table won't work.  
@@ -553,8 +553,8 @@ called breadth-first search.
 
 To figure out how to get from point `A` to point `B` there are 
 two steps :  
-1- Model the problem as graph.  
-2- Solve the problem using breadth-first search.
+1. Model the problem as graph.  
+2. Solve the problem using breadth-first search.
 
 ### What is a Graph?  
 A graph models a set of connections. Each graph is made up of 
@@ -571,8 +571,8 @@ model how different things are connected to one another.
 We already know Binary search. Breadth-first search is a different 
 kind of search algorithm, one that runs on graphs. It can answer 
 two types of questions :  
-1- Is there a path from node `A` to node `B`?  
-2- What is the shortest path from node `A` to node `B`?  
+1. Is there a path from node `A` to node `B`?  
+2. What is the shortest path from node `A` to node `B`?  
 
 #### Finding the Shortest Path  
 To find the shortest path from point `A` to point `B`, you need 
@@ -619,8 +619,8 @@ In this case, you want to map a node to all of its neighbors.
 
 Here's how you'd write it in Java :  
 ```java
-var graph = new HashMap<String, List<String>>();
-var firstDegreeConnections = Arrays.asList("Omar", "Sarah", "Aya");
+Map<String, List<String>> graph = new HashMap<>();
+List<String> firstDegreeConnections = Arrays.asList("Omar", "Sarah", "Aya");
 graph.put("You", firstDegreeConnections);
 ```
 - *In Java we have two implementations for hash tables, 
@@ -631,13 +631,12 @@ give you an array of all the neighbors of `"you"`.
 
 A graph is just a bunch of nodes and edges, so this is all you need to
 have a graph in Java. What about a bigger graph?
-
 ```java
-var graph = new HashMap<String, List<String>>();
-var yourConnections = Arrays.asList("Omar", "Sarah", "Aya");
-var ayaConnections = Arrays.asList("Ahmed", "Omar");
-var ahmedConnections = Arrays.asList("Yara");
-var omarConnections = Arrays.asList();
+Map<String, List<String>> graph = new HashMap<String, List<String>>();
+List<String> yourConnections = Arrays.asList("Omar", "Sarah", "Aya");
+List<String> ayaConnections = Arrays.asList("Ahmed", "Omar");
+List<String> ahmedConnections = Arrays.asList("Yara");
+List<String> omarConnections = Arrays.asList();
 graph.put("You", yourConnections);
 graph.put("Aya", ayaConnections);
 graph.put("Ahmed", ahmedConnections);
@@ -647,16 +646,16 @@ graph.put("Omar", omarConnections);
 Does it matter what order you add the key/value pairs in?
 Does it matter if you write :  
 ```java
-var ahmedConnections = Arrays.asList("Yara");
-var omarConnections = Arrays.asList();
+List<String> ahmedConnections = Arrays.asList("Yara");
+List<String> omarConnections = Arrays.asList();
 graph.put("Ahmed", ahmedConnections);
 graph.put("Omar", omarConnections);
 ```
 
 Instead of :  
 ```java
-var ahmedConnections = Arrays.asList("Yara");
-var omarConnections = Arrays.asList();
+List<String> ahmedConnections = Arrays.asList("Yara");
+List<String> omarConnections = Arrays.asList();
 graph.put("Omar", omarConnections);
 graph.put("Ahmed", ahmedConnections);
 ```
@@ -671,18 +670,18 @@ have any arrows, and both nodes are each other's neighbors.
 
 ### Implementing the Algorithm  
 Here's how the implementation will work.  
-1- Keep a queue containing the nodes to check.  
-2- Pop an item off the queue.  
-3- Check if the item matches your criteria.  
-4- If yes, that's it. If no, add all the neighbours of that 
+1. Keep a queue containing the nodes to check.  
+2. Pop an item off the queue.  
+3. Check if the item matches your criteria.  
+4. If yes, that's it. If no, add all the neighbours of that 
 item to the queue.  
-5- Loop!  
-6- If the queue is empty there are no items that match your 
+5. Loop!  
+6. If the queue is empty there are no items that match your 
 criteria.
 
 Let's implement the algorithm. First we need to create the graph.
 ```java
-var graph = new HashMap<String, List<String>>();
+Map<String, List<String>> graph = new HashMap<>();
 graph.put("You", Arrays.asList("Omar", "Sarah", "Aya"));
 graph.put("Aya", Arrays.asList("Ahmed", "Omar"));
 graph.put("Ahmed", Arrays.asList("Yara"));
@@ -690,7 +689,7 @@ graph.put("Omar", Arrays.asList());
 ```
 Now let's create a queue.
 ```java
-var queue = new LinkedList<String>();
+List<String> queue = new LinkedList<String>();
 queue.addAll(graph.get("You"));
 ```
 - *A LinkedList in Java can be used as a queue data structure
@@ -702,7 +701,7 @@ your neighbours. And we add them to the search queue.
 
 Next we will keep track of the people we already searched.
 ```java
-var searched = new ArrayList<>();
+List<String> searched = new ArrayList<>();
 ```
 This is used to prevent looking for the same person twice and 
 also without this we could end up in an infinite loop (If your 
@@ -712,15 +711,15 @@ in the graph, so you could end up in an infinite loop).
 Let's see the rest.
 ```java
 while (!queue.isEmpty()) {
-    var person = queue.remove();
-    var found = searched.stream().filter(p -> p.equals(person)).findFirst();
+    List<String> person = queue.remove();
+    Optional<String> found = searched.stream().filter(p -> p.equals(person)).findFirst();
     if (found.isEmpty()) {
         if (person.equals("Ahmed")) { //just a dummy search criteria for demonstration
             System.out.println(person + " is found");
             break;
         }
         else {
-            var c = graph.get(person);
+            String c = graph.get(person);
             if (c != null) queue.addAll(c);
             searched.add(person);
         }
@@ -769,21 +768,20 @@ Dijkstra's algorithm to go from start to finish in the
 shortest possible time.
 
 There are four steps to Dijkstra's algorithm :  
-1- Find the "cheapest" node. This is the node that you 
+1. Find the "cheapest" node. This is the node that you 
 can get to in the least amount of time.  
-2- Update the costs of the neighbors of this node. So that if 
+2. Update the costs of the neighbors of this node. So that if 
 from the starting point to node `A` would take 5 minutes, but 
 now that you are at node `B` which took you 3 minutes to get 
 from the starting point, and you can get to node `A` from node 
 `B` in one minute. Then update that from the start to node `A` 
 there's a faster path that takes 4 minutes.  
-3- Repeat until you have done this for every node in the graph.  
-4- Calculate the final path.
+3. Repeat until you have done this for every node in the graph.  
+4. Calculate the final path.
 
 ### Terminology  
 When you work with Dijkstra's algorithm, each edge in the graph 
 has a number associated with it. These are called *weights*.
-
 ```text
     7 minutes
 A ------------- P
@@ -798,8 +796,8 @@ weight.
 
 Remember our talk earlier about directed and undirected graphs? 
 An undirected graph means that both nodes point to each other. 
-That's a cycle! Dijkstra's algorithm only works with directed 
-graphs, called DAGs for short.
+That's a cycle! Dijkstra's algorithm only works with directed
+acyclic graphs, called DAGs for short.
 
 ### Trading for a Piano  
 Let's see an example. Our friend Rama, is trying to trade a music 
@@ -853,7 +851,7 @@ Figure out how long it takes to get to its neighbors (the cost).
 |______|Piano|∞|
 
 Figure out how long it takes to get to its neighbors (the cost).
-You have prices for the bass guitar and the drum set in the table. 
+You have prices for the bass guitar, and the drum set in the table. 
 Their value was set when you went through the poster, so the 
 poster gets set as their parent. That means, to get to the bass 
 guitar, you follow the edge from the poster, and the same for 
@@ -939,3 +937,441 @@ negative-weight edges, there's an algorithm for that! It's
 called the Bellman-Ford algorithm.
 
 ### Implementation  
+Let's see how to implement Dijkstra's Algorithm. Here's the graph we will 
+use for this example.
+
+![Rama's trades graph](./07-02.png)
+
+To Code this you will need three hash tables `Graph`, `Costs` and `Parents`.
+You’ll update the costs and parents hash tables as the algorithm progresses. 
+First, you need to implement the graph. You’ll use a hash table like you 
+did in chapter 6.
+```java
+Map<String, List<String>> graph = new HashMap<>();
+```
+
+In the last chapter, you stored all the neighbors of a node in the hash table, 
+like this : 
+```java
+graph.put("You", Arrays.asList("Omar", "Sarah", "Aya"));
+```
+
+But this time you need to store the neighbor, and the cost for getting to that 
+neighbor. You can use another hashmap. We will create a graph class to store 
+this data.
+
+Let's create the `Graph` class.
+```java
+public class Graph {
+
+    private Map<String, Map<String, Integer>> adjVertices;
+
+    public Graph() {
+        this.adjVertices = new HashMap<>();
+    }
+
+    public void addVertex(String label) {
+        adjVertices.putIfAbsent(label, new HashMap<>());
+    }
+
+    public void addVertexValue(String vertexLabel, String label, Integer weight) {
+        adjVertices.get(vertexLabel).putIfAbsent(label, weight);
+    }
+
+    public HashMap<String, Integer> get(String vertexLabel) {
+        return adjVertices.get(vertexLabel);
+    }
+}
+```
+
+We can use it like : 
+```java
+public class Main {
+
+    public static void main(String[] args) {
+        Graph graph = new Graph();
+
+        graph.addVertex("start");
+        graph.addVertexValue("start", "a", 6);
+        graph.addVertexValue("start", "b", 2);
+
+        // And you can get the neighbors of the "start" like this
+        Set<String> start = graph.get("start").keySet();
+        System.out.println(start); //["a", "b"]
+        
+        // And To find the weight of the edge from start to a
+        Integer aWeight = graph.get("start").get("a");
+        System.out.println(aWeight); //6
+    }
+    
+}
+```
+
+Let's add the rest of the Vertices.
+```java
+graph.addVertex("a");
+graph.addVertexValue("a", "fin", 1);
+
+graph.addVertex("b");
+graph.addVertexValue("b", "a", 3);
+graph.addVertexValue("b", "fin", 5);
+
+graph.addVertex("fin"); //The finish vertex has no edges
+```
+
+You will need another hash table to store the costs.
+```java
+Map<String, Double> costs = new HashMap<>();
+costs.putIfAbsent("a", 6d);
+costs.putIfAbsent("b", 2d);
+costs.putIfAbsent("fin", Double.POSITIVE_INFINITY);
+```
+
+The final graph hash table looks like this :  
+![Rama's trades graph](./07-03.png)
+
+You also need another hash table for the parents.
+```java
+Map<String, String> parents = new HashMap<>();
+parents.putIfAbsent("a", "start");
+parents.putIfAbsent("b", "start");
+parents.putIfAbsent("fin", null);
+```
+
+Finally, you need an array to keep track of all the nodes you've already processed, 
+because you don't need to process a node more than once.
+```java
+List<String> processed = new ArrayList();
+```
+
+That’s all the setup. Now let’s look at the algorithm.
+```java
+// find the lowest cost node that you haven't processed yet
+Map.Entry<String, Integer> lowestCostNode = findLowestCostNode(costs, processed);
+// while you still have unprocessed nodes
+while (lowestCostNode != null) {
+    // get the cost and neighbors of the node
+    Integer cost = costs.get(lowestCostNode.getKey());
+    Map<String, Integer> neighbors = graph.get(lowestCostNode.getKey());
+    
+    // go through all the neighbors
+    for (Map.Entry<String, Integer> neighbor : neighbors.entrySet()) {
+        // calculate the cost of that neighbor when going through this node
+        Integer newCost = cost + neighbors.get(neighbor.getKey());
+        // if it’s cheaper to get to this neighbor by going through this node ...
+        if (costs.get(neighbor.getKey()) > newCost) {
+            // update the cost and parent of this neighbor
+            costs.put(neighbor.getKey(), newCost);
+            parents.put(neighbor.getKey(), lowestCostNode.getKey());
+        }
+    }
+    // mark the node as processed 
+    processed.add(lowestCostNode.getKey());
+    // get next lowest cost node
+    lowestCostNode = findLowestCostNode(costs, processed);
+}
+
+// lowest cost node
+static Map.Entry<String, Integer> findLowestCostNode(Map<String, Integer> costs, List<String> processed) {
+    Integer lowestCost = Integer.MAX_VALUE;
+    Map.Entry<String, Integer> lowestCostNode = null;
+
+    for (Map.Entry<String, Integer> node : costs.entrySet()) {
+        Integer cost = node.getValue();
+        if (cost < lowestCost && !processed.contains(node.getKey())) {
+            lowestCost = cost;
+            lowestCostNode = node;
+        }
+    }
+
+    return lowestCostNode;
+}
+```
+
+---
+
+## Chapter 8 : Greedy Algorithms  
+*Page 141-160*
+
+### The Classroom Scheduling Problem  
+Suppose you have a classroom and want to hold as many classes here as possible. 
+You get a list of classes.
+
+
+|Class|Start|End|
+|---|---|---|
+|Art|09:00 AM|10:00 AM|
+|ENG|09:30 AM|10:30 AM|
+|Math|10:00 AM|11:00 AM|
+|CS|10:30 AM|11:30 AM|
+|Music|11:00 AM|12:00 PM|
+
+You want to hold as many classes as possible in this classroom. 
+How do you pick what set of classes to hold, so that you get the 
+biggest set of classes possible?
+
+Here’s how you would do it : 
+
+1. Pick the class that ends the soonest. This is the first class you'll hold in 
+this classroom.  
+2. Now, you have to pick a class that starts after the first class. Again, pick 
+the class that ends the soonest. This is the second class you'll hold.
+
+Keep doing this, and you'll end up with the answer!
+
+Art ends the soonest, at 10:00 a.m., so that's one of the classes you pick.
+Now you need the next class that starts after 10:00 a.m. and ends the soonest.
+English is out because it conflicts with Art, but Math works. Finally, CS conflicts 
+with Math, but Music works.
+So these are the three classes you'll hold in this classroom.
+
+|Class|Start|End||
+|---|---|---|---|
+|Art|09:00 AM|10:00 AM|✓|
+|ENG|09:30 AM|10:30 AM|☓|
+|Math|10:00 AM|11:00 AM|✓|
+|CS|10:30 AM|11:30 AM|☓|
+|Music|11:00 AM|12:00 PM|✓|
+
+A greedy algorithm is simple: at each step, pick the optimal move. In this case, 
+each time you pick a class, you pick the class that ends the soonest. In technical 
+terms: at each step you pick the locally optimal solution, and in the end you're 
+left with the globally optimal solution.
+
+Obviously, greedy algorithms don't always work. But they're simple to write! Let's 
+look at another example.
+
+### The Set-Covering Problem  
+Suppose you're starting a radio show. You want to reach listeners in all 50 states. 
+You have to decide what stations to play on to reach all these listeners. It costs 
+money to be on each station, so you're trying to minimize the number of stations 
+you play on. You have a list of stations. Each station covers a region, and there's 
+overlap. How do you figure out the smallest set you can play on to cover all 50 states?
+
+|Radio Station|Available In|
+|---|---|
+|KOne|IN, NV, UT|
+|KTwo|WA, ID, MT|
+|KThree|OR, MV, CA|
+|KFour|NV, UT|
+|...|...|
+
+1. List every possible subset of stations. This is called the power set. 
+There are 2^n possible subsets.  
+2. From these, pick the set with the smallest number of stations that
+covers all 50 states.
+
+The problem is, it takes a lot of time to calculate every possible subset of 
+stations. It takes `o(2^n)` time, because there are 2^n stations. It's possible to 
+do if you have a small set of 5 to 10 stations.But with all the examples here 
+think about what will happen if you have a lot of items. It takes much longer 
+if you have more stations.
+
+#### Approximation algorithms  
+Greedy algorithm to the rescue! Here's a greedy algorithm that comes pretty close : 
+
+1. Pick the station that covers the most states that haven't been covered yet.
+It's OK if the station covers some states that have been covered already.  
+2. Repeat until all states are covered.
+
+This is called an approximation algorithm. When calculating the exact 
+solution will take too much time, an approximation algorithm will work. 
+Approximation algorithms are judged by :  
+• How fast they are.  
+• How close they are to the optimal solution.
+
+Greedy algorithms are a good choice because not only are they simple to come up 
+with, but that simplicity means they usually run fast, too. In this case, the 
+greedy algorithm runs in `o(n^2)`, where *n* is the number of radio stations.
+
+Let's see how this problem looks in code.
+
+#### Code For Setup  
+First make a set of states you want to cover.
+```java
+Set<String> states_needed = Set.of("mt", "wa", "or", "id", "nv", "ut", "ca", "az");
+```
+
+You also need the list of stations that you're choosing from. I chose to use a 
+hash for this.
+```java
+//You also need the list of stations that you're choosing from
+Map<String, Set<String>> stations = new HashMap<>();
+stations.putIfAbsent("kone", Set.of("id", "nv", "ut"));
+stations.putIfAbsent("ktwo", Set.of("wa", "id", "mt"));
+stations.putIfAbsent("kthree", Set.of("or", "nv", "ca"));
+stations.putIfAbsent("kfour", Set.of("nv", "ut"));
+stations.putIfAbsent("kfive", Set.of("ca", "az"));
+```
+
+Finally, you need something to hold the final set of stations you'll use.
+```java
+Set<String> final_stations = new HashSet<>();
+```
+
+#### Calculating the Answer  
+Now you need to calculate the stations you'll use. Take a look at the below image, 
+and see if you can predict what stations you should use.  
+![Stations](./08-01.png)
+
+There can be more than one correct solution. You need to go through every station 
+and pick the one that covers the most uncovered states.
+```java
+// while there is still states that needs to be covered
+while (!uncovered_needed_states.isEmpty()) {
+    String best_station = null;
+    // init the states that the best station covers
+    Set<String> covered_states = new HashSet<>();
+    for (Map.Entry<String, Set<String>> station : all_stations.entrySet()) {
+        // states that this station covers that are not covered yet (exist in the station needed)
+        Set<String> uncovered_states = uncovered_needed_states.stream()
+                .filter(station.getValue()::contains)
+                .collect(Collectors.toSet());
+    
+        // if this station covers more states (that are not covered yet) than the previously set best station
+        // then this is the best station. Yet!
+        if (uncovered_states.size() > covered_states.size()) {
+            best_station = station.getKey();
+            covered_states = uncovered_states;
+        }
+    }
+
+    // remove all the states that the best station covers from the states that are needed and not covered yet
+    uncovered_needed_states.removeAll(covered_states);
+    // add the best station found in this iteration to the final all_stations that you will use
+    final_stations.add(best_station);
+}
+
+System.out.println(final_stations); // [kfour, ktwo, kthree, kfive]
+```
+
+`covered_states` is a set of all the states this station covers 
+that haven't been covered yet. The for loop allows you to loop over every station 
+to see which one is the best station.
+
+In the `for` loop we iterate over all the stations and find out the states that are not 
+covered yet `uncovered_states`. If those states are more than the states that are 
+covered by the currently `best_station`. Then this is better than the `best_station`, 
+and it is the new `best_station`.
+
+After the `for` loop is over, we have the `best_station` that covered the most uncovered 
+states. Then we remove those states from the `uncovered_needed_states`, and add that 
+station to the `final_stations`. We keep on doing this `while` the 
+`uncovered_needed_states` is not empty.
+
+### NP-Complete Problems  
+To solve the set-covering problem (with the exact algorithm), you had to calculate 
+every possible set.
+
+Maybe you were reminded of the traveling salesperson problem from chapter 1. In 
+this problem, a salesperson has to visit five different cities.
+
+And he's trying to figure out the shortest route that will take him to all five 
+cities. To find the shortest route, you first have to calculate every possible route.
+
+How many routes do you have to calculate for five cities?
+
+#### Traveling Salesperson, Step by Step  
+Let's start small. Suppose you only have two cities. There are two routes to 
+choose from.
+
+![Possible Routes](./08-02.png)
+
+> #### Same Route or Different?  
+> You may think this should be the same route. After all, isn't SF > Marin the same 
+distance as Marin > SF? Not necessarily. Some cities (like San Francisco) have a 
+lot of one-way streets, so you can't go back the way you came. You might also 
+have to go 1 or 2 miles out of the way to find an on- ramp to a highway. So 
+these two routes aren't necessarily the same.
+
+You may be wondering, "In the traveling salesperson problem, is there a specific 
+city you need to start from?" For example, let's say I'm the traveling salesperson. 
+I live in San Francisco, and I need to go to four other cities. San Francisco would
+be my start city.
+
+But sometimes the start city isn't set. For example FedEx may deliver a package for 
+the Bay Area. The package will be sent to one of 50 FedEx locations in the Bay Area.
+Which location should it get flown to? Here the start location is unknown. It's up 
+to you to compute the optimal path and start location for the travelling salesperson.
+
+Let's go with the version where the start city is not defined.
+
+When we had two cities there were two possible routes. Suppose you add a new city.
+How many routes are there?
+
+There are six total routes, two for each city you can start at. 
+So three cities = six possible routes. Let's add another city, Fremont. Now suppose 
+you start at Fremont. Four possible start cities, with six possible routes for 
+each start city = 4 * 6 = 24 possible routes.
+
+Do you see a pattern? Every time you add a new city, you're increasing the number of 
+routes you have to calculate.
+
+This is called the factorial function (remember reading about this in chapter 3?). 
+So 5! = 120. Suppose you have 10 cities. How many possible routes are there? 
+10! = 3,628,800. You have to calculate over 3 million possible routes for 10 cities. 
+As you can see, the number of possible routes becomes big very fast! This is why 
+it's impossible to compute the “correct” solution for the traveling-salesperson 
+problem if you have a large number of cities.
+
+The traveling-salesperson problem and the set-covering problem both have something 
+in common: you calculate every possible solution and pick the smallest/shortest one. 
+Both of these problems are NP-complete.
+
+#### Approximating  
+What's a good approximation algorithm for the traveling salesperson? Something simple 
+that finds a short path. See if you can come up with an answer before reading on.
+
+Here's how I would do it: arbitrarily pick a start city. Then, each time the 
+salesperson has to pick the next city to visit, they pick the closest unvisited 
+city. Suppose they start in Marin. Total distance: 71 miles. Maybe it’s not the 
+shortest path, but it's still pretty short.
+
+Here's the short explanation of NP-completeness: some problems are famously hard 
+to solve. The traveling salesperson and the set-covering problem are two examples. 
+A lot of smart people think that it's not possible to write an algorithm that will
+solve these problems quickly.
+
+#### How Do You Tell If a Problem is NP-Complete?  
+NP-Complete problems show up everywhere! It's nice to know if the problem you're trying 
+to solve is NP-complete. At that point you can stop trying to solve it perfectly, and 
+solve it using approximation algorithm instead. But it's hard to tell if a problem you 
+are working on is NP-complete. Usually there's a very small difference between a problem 
+that is easy to solve and an NP-complete problem. For example in the previous chapter, 
+we learned how to calculate the shortest path to get from point `A` to point `B`. But 
+if you want to find the shortest path that connects several points, that's the traveling
+-salesperson problem, which is NP-complete.
+
+There's no way to tell if the problem you are working on is NP-complete But here are 
+some giveaways :  
+- Your algorithm runs quickly with handful of items, but really slows down with more 
+items.  
+- "All combinations of X" usually point to an NP-complete problem.  
+- Do you have to calculate "every possible version" of X because you can't break it 
+down into smaller sub-problems? Might be NP-complete problem.  
+- If your problem involves a sequence (such as a sequence of cities, like 
+traveling-salesperson), and it's hard to solve, it might be NP-complete.  
+- Can you restate your problem as the set-covering problem or the traveling-salesperson 
+problem? Then your problem is definitely NP-complete.  
+
+So to recap  
+- Greedy algorithms optimize locally, hoping to end up with a global optimum.  
+- NP-complete problems have no known fast solution.  
+- If you have an NP-complete problem your best bet is to use an approximation algorithm.  
+- Greedy algorithms are easy to write and fast to run, so they make good approximation 
+algorithms.  
+
+
+## Chapter 9 : Dynamic Programming  
+*Page 161-186*
+
+### The Knapsack Problem  
+Let's say you're a thief with a knapsack that can carry 4 lb of goods. You have three 
+items that you can put into the knapsack.
+
+1. Stereo, 3000$, 4 lbs.  
+2. Laptop, 2000$, 3 lbs.  
+3. Guitar, 1500$, 1 lbs.  
+
+What items should you steal so that you steal the maximum money's worth of gold?
+
