@@ -1375,3 +1375,413 @@ items that you can put into the knapsack.
 
 What items should you steal so that you steal the maximum money's worth of gold?
 
+#### The Simple Solution  
+The simplest algorithm is to try every possible set of goods and find the one that
+gives you the most value.
+
+Max value is : Guitar and Laptop for 3500$.
+
+This works, but it's really slow. For 3 items, you have to calculate 8 possible sets. 
+For 4 items, you have to calculate 16 sets. This algorithm takes `O(2^n)` time, which 
+is very, very slow.
+
+That's impractical for any reasonable number of goods. In chapter 8 we calculated an 
+approximate solution. That solution will be close to the optimal solution, but it 
+may not be the optimal solution. So how do we calculate the optimal solution?
+
+#### Dynamic Programming  
+Let's see how the dynamic programming algorithm works here. Dynamic programming 
+starts by solving sub-problems and builds up to solving the big problem.
+
+For the knapsack problem, you'll start by solving the problem for smaller knapsacks
+(sub-knapsack) and then work up to solving the original problem.
+
+Let's see the algorithm in action first.
+
+Every dynamic-programming algorithm starts with a grid. Here's a grid for the knapsack 
+problem.
+
+| |1|2|3|4|
+|---|---|---|---|---|
+|Guitar| | | | |
+|Stereo| | | | |
+|Laptop| | | | |
+
+The columns are for the knapsack weights from 1 to 4 pounds. The rows are for each item 
+to choose from. You need all of those columns because they will help you calculate the 
+values of the sub-knapsacks.
+
+The grid starts out empty. You're going to fill in each cell of the grid. Once the grid 
+is filled in, you'll have your answer to this problem!
+
+##### The Guitar Row  
+I'll show you the exact formula for calculating this grid later. Let's do a 
+walk-through first. Start with the first row.
+
+This is the guitar row, which means you're trying to fit the guitar into the knapsack. 
+At each sell there's a simple decision. Do you steal the guitar or not? Remember you're 
+trying to fit the items with the most value to steal. The first cell has a knapsack 
+capacity of 1 lb. The guitar is also 1 lb, which means it fits into the knapsack! so 
+the value of this cell is 1500$, and it contains a guitar.
+
+Like this, each cell in the grid will contain a list of all the items that fit into the 
+knapsack at that point. Let's look at the next cell. Here you have a knapsack of 
+**capacity 2** lb. Well, the guitar will definitely fit here. The same for the rest 
+of the cells. **Remember** this is the first row, so you have only the *guitar* to choose 
+from. You're pretending that other items are not available to steal right now.
+
+| |1|2|3|4|
+|---|---|---|---|---|
+|Guitar|G, 1500$|G, 1500$|G, 1500$|G, 1500$|
+|Stereo| | | | |
+|Laptop| | | | |
+
+At this point, you're probably confused. Why are you doing this for knapsacks with 
+capacity of 1 lb, 2 lb, and so on, when the problem is about 4 lb knapsack? Remember 
+that dynamic programming starts with a small problem and builds up to the big problem. 
+You're solving sub-problems here that will help you to solve the big problem.
+
+Remember, you're trying to maximize the value of the knapsack. This row represents the 
+current best guess for this max. In other words, according to this row, if you had a 
+knapsack of capacity of 4 lb, the max value you could put in there would be 1500$.
+
+You know that's not the final solution. As we go through the algorithm, you'll 
+refine your estimate.
+
+##### The Stereo Row  
+This row is for the stereo. Now that you're on the second row, you can steal the guitar 
+or the stereo. At every row, you can steal the item at that row or the items in the 
+row above it. Let's start with the first cell, a knapsack of capacity 1 lb. The current 
+max value you can fit into a knapsack of 1 lb is 1500$. 
+
+You can't steal the stereo. you have a knapsack (sub-knapsack) with capacity of 1 lb.
+And the stereo is too heavy, so 1500$ remains the max guess for a 1 lb knapsack. Same 
+thing for the next two cells. These knapsacks have a capacity of 2 lb and 3 lb. The 
+old max value for both was 1500$. You cannot fit the stereo as it's 4 lb so your 
+guesses remain unchanged.
+
+For the last cell you have capacity of 4 lb. The stereo finally fits. So now if you 
+put the stereo the max value is 3000$. 
+
+| |1|2|3|4|
+|---|---|---|---|---|
+|Guitar|G, 1500$|G, 1500$|G, 1500$|G, 1500$|
+|Stereo|G, 1500$|G, 1500$|G, 1500$|S, 3000$|
+|Laptop| | | | |
+
+##### The Laptop Row  
+The laptop is 3 lb, so for the first two cells the max value remains the guitar. For the 
+third cell though you have capacity of 3 lb, and that fits the laptop. So your max value 
+for the third cell is now 2000$.
+
+At 4 lb the current max value is 3000$ (from the previous row). You can put the laptop 
+in the knapsack, but it's only 3 lb, so you have 1 lb free! You could put something in 
+this 1 lb. What is the maximum value you can put in 1 lb? Well, you've been calculating 
+it all along.
+
+According to the last best estimate you can fit the guitar into that 1 lb space and 
+that's worth 1500$, Which is the max value when combined with the 2000$ from the 
+laptop.
+
+You might have been wondering why you were calculating max values for smaller 
+knapsacks. I hope now it makes sense! When you have space left over, you can use 
+the answers to those sub-problems to figure out what will fit in that space. It's 
+better to take the laptop + the guitar for 3500$.
+
+The final grid looks like this.
+
+| |1|2|3|4|
+|---|---|---|---|---|
+|Guitar|G, 1500$|G, 1500$|G, 1500$|G, 1500$|
+|Stereo|G, 1500$|G, 1500$|G, 1500$|S, 3000$|
+|Laptop|G, 1500$|G, 1500$|L, 2000$|L+G, 3500$|
+
+Maybe you think that I used a different formula to calculate the value of that last 
+cell. That's because I skipped some unnecessary complexity when filling in the values 
+of the earlier cells. Each cell's value gets calculated with the same formula. 
+Here it is.
+
+![Formula](./09-01.png)
+
+### Knapsack Problem FAQ  
+
+#### What Happens If You Add an Item?  
+Suppose that you can also steal an iphone with size of 1 lb and value of 2000$. Do 
+you have to recalculate everything to account for this new item? Nope. Remember 
+dynamic programming keeps progressively building on your estimate. So far the latest 
+grid holds the max values. Let's add a row for iphone.
+
+| |1|2|3|4|
+|---|---|---|---|---|
+|Guitar|G, 1500$|G, 1500$|G, 1500$|G, 1500$|
+|Stereo|G, 1500$|G, 1500$|G, 1500$|S, 3000$|
+|Laptop|G, 1500$|G, 1500$|L, 2000$|L+G, 3500$|
+|iphone| | | | |
+
+Let's start with the first cell. The iphone fits into the 1 lb knapsack. The old max 
+was 1500$, but the iphone is worth 2000$. Let's take the iphone instead.
+
+In the next cell you can fit the iphone and the guitar. For the third cell you can't do 
+better than the iphone and the guitar, So leave it as is.
+
+For the last cell, things get interesting. The current max is 3500$. You can steal 
+the iPhone instead, and you have 3 lb of space left over. Those 3 lb are worth 
+2000$! 2000$ from the iPhone + 2000$ from the old sub-problem: that's 4000$. 
+A new max! Here's the new final grid.
+
+| |1|2|3|4|
+|---|---|---|---|---|
+|Guitar|G, 1500$|G, 1500$|G, 1500$|G, 1500$|
+|Stereo|G, 1500$|G, 1500$|G, 1500$|S, 3000$|
+|Laptop|G, 1500$|G, 1500$|L, 2000$|L+G, 3500$|
+|iphone|I, 2000$|I+G, 3500$|I+G, 3500$|I+L, 4000$|
+
+#### What Happens If You Add a Smaller Item?  
+Suppose you can steal a necklace. It weighs 0.5 lb, and it's worth 1000$. So far, 
+your grid assumes that all weights are integers. Now you decide to steal the necklace. 
+You have 3.5 lb left over. What's the max value you can fit in 3.5 lb? You don't know! 
+You only calculated values for 1 lb, 2 lb, 3 lb, and 4 lb knapsacks. You need to know 
+the value of a 3.5 lb knapsack.
+
+Because of the necklace, you have to account for finer granularity, so the grid has 
+to change.
+
+| |0.5|1|1.5|2|2.5|3|3.5|4|
+|---|---|---|---|---|---|---|---|---|
+|Guitar| | | | | | | | |
+|Stereo| | | | | | | | |
+|Laptop| | | | | | | | |
+|Necklace| | | | | | | | |
+
+#### Can You Steal Fractions of an Item?  
+Answer: You can't. With dynamic-programming solution you either take the item or not. 
+There's no way for it to figure out that you should take half an item.
+
+But this case is also easily solved using a greedy algorithm! First take as much as 
+you can of the most valuable item. When that runs out, take as much as you can of the 
+next most valuable item, and so on.
+
+#### Optimizing Your Travel Itinerary  
+Suppose you're going to London for a nice vacation. You have two days there and 
+a lot of things you want to do. You can't do everything, so you make a list.
+
+![Itinerary](./09-02.png)
+
+For each thing you want to see, you write down how long it will take and rate how 
+much you want to see it. Can you figure out what you should see, based on this list?
+
+Here's the answer.
+
+| |0.5|1|1.5|2|
+|---|---|---|---|---|
+|WA|WA, 7|WA, 7|WA, 7|WA 7|
+|GT|WA, 7|WA+GT, 13|WA+GT, 13|WA+GT, 13|
+|NG|WA, 7|WA+GT, 13|WA+NG, 16|WA+NG+GT, 22|
+|BM|WA, 7|WA+GT, 13|WA+NG, 16|WA+NG+GT, 22|
+|PC|PC, 8|PC+WA, 15|PC+WA+GT, 21|PC+WA+NG, 24|
+
+#### Handling Items That Depend on Each Other  
+Suppose you want to go to Paris. So you put a couple of items on the list.
+
+![Itinerary](./09-03.png)
+
+These place take a lot of time, because you have to travel from London to Paris. If 
+you want to do all three items, it will take four and a half days.
+
+Wait! That's not right. You don't travel to Paris for each item. Once you're in Paris, 
+each item should only take a day. So it should be, one day per item + half a day of 
+travel = 3.5 days, not 4.5 days.
+
+If you put the Eiffel Tower in your knapsack, then the Louvre becomes “cheaper”—it 
+will only cost you a day instead of 1.5 days. How do you model this in dynamic 
+programming?
+
+You can't. Dynamic programming is powerful because it can solve sub-problems and 
+use those answers to solve the big problem. Dynamic programming only works when 
+each sub-problem is discrete—when it doesn't depend on other sub-problems. That 
+means there's no way to account for Paris using the dynamic-programming algorithm.
+
+#### Is It Possible That The Solution Will Require More Than Two Sub-Knapsacks  
+It's possible that the best solution involves stealing more than two items. The way 
+the algorithm is set up, you're combining two knapsacks at most, you'll never have 
+more than two knapsacks. But it's possible for those knapsacks to have their own 
+sub-knapsacks.
+
+#### Is It Possible That The Best Solution Doesn't Fill The Knapsack Completely?  
+Yes. Suppose you could also steal a diamond.
+This is a big diamond: it weighs 3.5 pounds. It's worth a million dollars, way more 
+than anything else. You should definitely steal it! But there's half a pound of 
+space left, and nothing will fit in that space.
+
+### Longest Common Substring  
+You've seen one dynamic programming problem so far. What are the takeaways?
+
+- Dynamic programming is useful when you're trying to optimize something given a 
+constraint. In the knapsack problem, you had to maximize the value of goods you stole
+constrained by the size of the knapsack.  
+- You can use dynamic programming when the problem can be broken into discrete 
+sub-problems, and they don't depend on each other.
+
+It can be hard to come up with a dynamic-programming solution. That's what we'll 
+focus on in this section. Some general tips follow :  
+
+- Every dynamic-programming solution involves a grid.  
+- The values in the cell are usually what you're trying to optimize. For the knapsack 
+problem, the values were the value of the goods.  
+- Each cell is a sub-problem, so think about how you can divide your problem into 
+sub-problems. That will help you figure out what the axes are.
+
+Let's look at another example. Suppose you run `dictionary.com`. Someone types a word, 
+and you give them the definition.
+
+But if someone misspells a word, you want to be able to guess what word they meant. 
+Alex is searching for Fish, but he put Hish. That's not a word in your dictionary, 
+but you have a lost of words that are similar. Fish, Vista.
+
+Alex typed Hish, which word did he mean to type: Fish or Vista.
+
+#### Making The Grid  
+What does the grid for this problem look like? You need to answer these questions. 
+
+- What are the values of the cells?  
+- How do you divide this problem into sub-problems?  
+- What are the axes of the grid?  
+
+In dynamic programming, you're trying to maximize something. In this case, you're 
+trying to find the longest substring that two words have in common. What substring 
+do Fish and Hish have in common? How about Hish and Vista? That's what you want to 
+calculate.
+
+Remember the values of the cells are usually what you are trying to optimize. In 
+this case, the values will probably be a number: the length of the longest substring 
+that the two words have in common.
+
+How do you divide this problem into sub-problems? You could compare substrings. 
+Instead of comparing Fish and Hish, you could compare his and fis first. Each cell 
+will contain the length of the longest substring that tow substrings have in common. 
+This also gives you a clue that the axes will probably the two words. So the grid 
+probably looks like this.
+
+| |H|I|S|H|
+|---|---|---|---|---|
+|F| | | | |
+|I| | | | |
+|S| | | | |
+|H| | | | |
+
+#### Filling The Grid  
+Now you have a good idea of what the grid should look like. What's the formula for 
+filling in each cell of the grid? You can cheat a little, because you already know 
+what the solution should be, Hish and Fish have a substring of length 3 in common ish.
+
+But that still doesn't tell you the formula to use. Computer scientists sometimes 
+joke about using the Feynman algorithm. The Feynman algorithms is named after
+physicist Richard Feynman, and it works like this :  
+
+- Write down the problem.  
+- Think real hard.  
+- Write down the solution.  
+
+The truth is, there's no easy way to calculate the formula here. You have to experiment 
+and try to find something that works. Sometimes algorithms aren't an exact recipe. 
+They're a framework that you build your idea on top of.
+
+Try to come up with a solution for this problem yourself. I'll give you a hint, part 
+of the grid looks like this.
+
+| |H|I|S|H|
+|---|---|---|---|---|
+|F|0|0| | |
+|I| | | | |
+|S| | |2|0|
+|H| | | |3|
+
+What are the other values? Remember that each cell is the value of a sub-problem. Why 
+does cell (3,3) have a value of 2? Why does cell (3,4) have a value of 0?
+
+Read on after you've tried to come up with a formula yourself. Even if you don't get 
+it right, my explanation will make a lot more sense.
+
+#### The Solution  
+The final grid looks like this.
+
+| |H|I|S|H|
+|---|---|---|---|---|
+|F|0|0|0|0|
+|I|0|1|0|0|
+|S|0|0|2|0|
+|H|0|0|0|3|
+
+Here's my formula for filling in each cell. If the letters don't match the value is 0. 
+If they do match the value is value of the top left neighbour + 1.
+
+Here's the grid for hish vs. vista.
+
+| |V|I|S|T|A|
+|---|---|---|---|---|---|
+|F|0|0|0|0|0|
+|I|0|1|0|0|0|
+|S|0|0|2|0|0|
+|H|0|0|0|0|0|
+
+One thing to note: for this problem the final solution may not be in the last cell! 
+For the knapsack problem, this last cell always had the final solution. But for the 
+longest common substring the solution is the larges number in the grid, and it may 
+not be the last cell.
+
+Let's go back to the original question: which string has more in common with hish.
+It's fish, Alex probably meant to type fish.
+
+#### Longest Common Subsequent  
+Suppose Alex accidentally searched for fosh. Which word did he mean: fish or fort?
+
+Let's compare them using the longest common substring formula.
+
+| |F|O|S|H|
+|---|---|---|---|---|
+|F|1|0|0|0|
+|O|0|2|0|0|
+|R|0|0|0|0|
+|T|0|0|0|0|
+
+| |F|O|S|H|
+|---|---|---|---|---|
+|F|1|0|0|0|
+|I|0|0|0|0|
+|S|0|0|1|0|
+|H|0|0|0|2|
+
+They're both the same: two letters! But fosh is closer to fish.
+
+You're comparing the longest common substring, but you really need to compare the 
+longest common subsequence: the number of letters in a sequence that the two words 
+have in common. How do you calculate the longest common subsequence?
+
+The longest common subsequence is very similar to the longest common substring, 
+and the formulas are pretty similar, too.
+
+Here's the grid.
+
+![Formula](./09-04.png)
+
+Here's my formula for filling in each cell.
+
+![Formula for each cell](./09-05.png)
+
+Whew—you did it! This is definitely one of the toughest chapters in the book. So is 
+dynamic programming ever really used? Yes:
+
+- Biologists use the longest common subsequence to find similarities in DNA strands. 
+They can use this to tell how similar two animals or two diseases are. The longest 
+common subsequence is being used to find a cure for multiple sclerosis.  
+- Have you ever used diff (like git diff)? Diff tells you the differences between 
+two files, and it uses dynamic programming to do so.  
+- We talked about string similarity. Levenshtein distance measures how similar two 
+strings are, and it uses dynamic programming. Levenshtein distance is used for 
+everything from spell-check to figuring out whether a user is uploading 
+copyrighted data.  
+- Have you ever used an app that does word wrap, like Microsoft Word? How does it 
+figure out where to wrap so that the line length stays consistent? Dynamic 
+programming!  
+
+
