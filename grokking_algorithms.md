@@ -1162,8 +1162,8 @@ There are 2^n possible subsets.
 covers all 50 states.
 
 The problem is, it takes a lot of time to calculate every possible subset of 
-stations. It takes `o(2^n)` time, because there are 2^n stations. It's possible to 
-do if you have a small set of 5 to 10 stations.But with all the examples here 
+stations. It takes `O(2^n)` time, because there are 2^n stations. It's possible to 
+do if you have a small set of 5 to 10 stations. But with all the examples here 
 think about what will happen if you have a lot of items. It takes much longer 
 if you have more stations.
 
@@ -1171,7 +1171,7 @@ if you have more stations.
 Greedy algorithm to the rescue! Here's a greedy algorithm that comes pretty close : 
 
 1. Pick the station that covers the most states that haven't been covered yet.
-It's OK if the station covers some states that have been covered already.  
+It's OK if the station covers some states that have been already covered.  
 2. Repeat until all states are covered.
 
 This is called an approximation algorithm. When calculating the exact 
@@ -1281,7 +1281,7 @@ choose from.
 > You may think this should be the same route. After all, isn't SF > Marin the same 
 distance as Marin > SF? Not necessarily. Some cities (like San Francisco) have a 
 lot of one-way streets, so you can't go back the way you came. You might also 
-have to go 1 or 2 miles out of the way to find an on- ramp to a highway. So 
+have to go 1 or 2 miles out of the way to find an on-ramp to a highway. So 
 these two routes aren't necessarily the same.
 
 You may be wondering, "In the traveling salesperson problem, is there a specific 
@@ -1339,8 +1339,8 @@ solve it using approximation algorithm instead. But it's hard to tell if a probl
 are working on is NP-complete. Usually there's a very small difference between a problem 
 that is easy to solve and an NP-complete problem. For example in the previous chapter, 
 we learned how to calculate the shortest path to get from point `A` to point `B`. But 
-if you want to find the shortest path that connects several points, that's the traveling
--salesperson problem, which is NP-complete.
+if you want to find the shortest path that connects several points, that's the 
+traveling-salesperson problem, which is NP-complete.
 
 There's no way to tell if the problem you are working on is NP-complete But here are 
 some giveaways :  
@@ -1373,7 +1373,7 @@ items that you can put into the knapsack.
 2. Laptop, 2000$, 3 lbs.  
 3. Guitar, 1500$, 1 lbs.  
 
-What items should you steal so that you steal the maximum money's worth of gold?
+What items should you steal so that you steal the maximum money's worth of goods?
 
 #### The Simple Solution  
 The simplest algorithm is to try every possible set of goods and find the one that
@@ -1784,4 +1784,242 @@ copyrighted data.
 figure out where to wrap so that the line length stays consistent? Dynamic 
 programming!  
 
+## Chapter 10 : 
+*Page 187-202*
 
+### Classifying Oranges vs. Grapefruit  
+Look at this fruit. Is it an orange or a grapefruit? Well, I know that grapefruits 
+are generally bigger and redder.
+
+![Orange or Grapefruit](./10-01.png)
+
+My thought process is something like this: I have a graph in my mind.
+
+![Orange or Grapefruit Graph](./10-02.png)
+
+Generally speaking, the bigger, redder fruit are grapefruits. This fruit is big and 
+red, so it's probably a grapefruit. But what if you get a fruit like this?
+
+![Strange Fruit](./10-03.png)
+
+How would you classify this fruit? One way is to look at the neighbors of this spot. 
+Take a look at the three closest neighbors of this spot.
+
+![K-nearest Neighbour](./10-04.png)
+
+More neighbors are oranges than grapefruit. So this fruit is probably an orange. 
+Congratulations: You just used the k-nearest neighbors (KNN) algorithm for 
+classification! The whole algorithm is pretty simple.
+
+- Get a new fruit to classify.  
+- You look at its three nearest neighbours.  
+- More neighbours are oranges, so this is probably an orange.  
+
+The KNN algorithm is simple but useful! If you're trying to classify something, you 
+might want to try KNN first. Let's look at a more real-world example.
+
+### Building a Recommendations System  
+Suppose you're Netflix, and you want to build a movie recommendation system for your 
+users. On a high level this is similar to the grapefruit problem.
+
+You can plot every user on a graph. These users are plotted by similarity, so users 
+with similar taste are plotted closer together. Suppose you want to recommend movies 
+for Priyanka. Find the five users closest to her.
+
+![Recommendation System](./10-05.png)
+
+Justin, Jc, Joey, Lance and Chris all have similar taste in movies. So whatever 
+movies they like, Priyanka will probably like too!
+
+Once you have this graph, building a recommendation system is easy. If Justin likes 
+a movie, recommend it to Priyanka.
+
+![Recommendation System - 2](./10-06.png)
+
+But there's still a big piece missing. You graphed the users by similarity.
+How do you figure out how similar two users are?
+
+#### Feature Extraction  
+In the grapefruit example, you compared fruit based on how big they are, 
+and how red they are. Size and color are the *features* you're comparing. 
+Now suppose you have three fruit. You can extract the features. 
+
+![Compare Three Fruit](./10-07.png)
+
+Then you can graph the three fruit.
+
+![Graph The Three Fruit](./10-08.png)
+
+From the graph, you can visually tell that A and B are similar. 
+Let's measure how close they are. To find the distance between two 
+points, you use the pythagorean formula. 
+
+![Graph The Three Fruit](./10-09.png)
+
+So the distance between A and B is 1. You can find the rest of the distances 
+too.
+
+![Graph The Three Fruit](./10-10.png)
+
+The distance formula confirms what you saw visually: fruits A and B are similar.
+
+Suppose you're comparing Netflix users instead. You need some way to graph 
+the users. So you need to convert each user to a set of coordinates, just 
+as you did for fruit. Once you can graph users, you can measure the 
+distance between them.
+
+Here's how you can convert users into a set of numbers. When users sign up 
+for Netflix, have them rate some categories of movies based on how much 
+they like those categories. For each user, you have a set of ratings.
+
+![Users Netflix Rating](./10-11.png)
+
+Priyanka and Justin like Romance and hate Horror. Morpheus likes Action 
+but hates Romance. Remember how in oranges versus grapefruit, each fruit 
+was represented by a set of two numbers? Here, each user is represented 
+by a set of five numbers.
+
+![Fruit vs Users Representation](./10-12.png)
+
+A mathematician would say, instead of calculating the distance in two 
+dimensions, you're now calculating the distance in five dimensions. But 
+the distance formula remains the same.
+
+![5D Distance Formula](./10-13.png)
+
+The distance formula is flexible: you could have a set of a million numbers 
+and still use the same old distance formula to find the distance. Maybe 
+you're wondering, "What does distance mean when you have five numbers?" 
+The distance tells you how similar those sets of numbers are.
+
+![5D Distance Formula - 2](./10-14.png)
+
+Priyanka and Justin are pretty similar. What's the difference between 
+Priyanka and Morpheus? Calculate the distance before moving on.
+
+Priyanka and Morpheus are 24 apart. The distance tells you that Priyanka's 
+tastes are more like Justin's than Morpheus.
+
+Now recommending movies to Priyanka is easy : if Justin likes a movie 
+recommend it to Priyanka, and vice versa.
+
+If you're a Netflix user, Netflix will keep telling you, "Please rate 
+more movies. The more movies you rate, the better your recommendations 
+will be". Now you know why. The more movies you rate, the more accurately 
+Netflix can see what other users you're similar to.
+
+#### Regression  
+Suppose you want to do more than just recommend a movie: you want to 
+guess how Priyanka will rate this movie. Take the five people closest 
+to her.
+
+By the way, I keep talking about the closest five people. There's 
+nothing special about the number 5: you could do the closest 2, or 10, 
+or 10,000. That's why the algorithm is called k-nearest neighbors and
+not five-nearest neighbors.
+
+Suppose you're trying to guess a rating for Pitch Perfect. Well, how 
+did Justin, JC, Joey, Lance, and Chris rate it?
+
+![Pitch Perfect Rating](./10-15.png)
+
+You could take the average of their ratings and get 4.2 stars. That's 
+called regression. These are the two basic things you'll do with 
+KNN—classification and regression:
+
+- Classification = categorization into a group.  
+- Regression = predicting a response (like a number).  
+
+Regression is very useful. Suppose you run a small bakery in Berkeley, 
+and you make fresh bread every day. You're trying to predict how many 
+loaves to make for today. You have a set of features:
+
+- Weather on a scale of 1 to 5 (1 = bad, 5 = great).  
+- Weekend or holiday? (1 if it’s a weekend or a holiday, 0 otherwise).  
+- Is there a game on? (1 if yes, 0 if no).  
+
+And you know how many loaves of bread you've sold in the past for 
+different sets of features.
+
+![Pitch Perfect Rating](./10-16.png)
+
+Today is a weekend day with good weather. Based on the data you just saw, 
+how many loaves will you sell? Let's use KNN, where K = 4. First, figure 
+out the four nearest neighbors for this point. `(4, 1, 0)`.
+
+Here are the distances, A, B, D, and F are the nearest.
+
+![Four Nearest Points](./10-17.png)
+
+Take an average of the loaves sold on those days, and you get 218.75. 
+That's how many loaves you should make for today!
+
+#### Cosine similarity  
+>So far, you've been using the distance formula to compare the distance 
+between two users. Is this the best formula to use? A common one used 
+in practice is cosine similarity. Suppose two users are similar, but 
+one of them is more conservative in their ratings. They both loved 
+Manmohan Desai's Amar Akbar Anthony. Paul rated it 5 stars, but Rowan 
+rated it 4 stars. If you keep using the distance formula, these two 
+users might not be each other's neighbors, even though they have 
+similar taste.  
+> 
+>Cosine similarity doesn't measure the distance between two vectors. 
+Instead, it compares the angles of the two vectors. It's better at 
+dealing with cases like this. Cosine similarity is out of the scope 
+of this book, but look it up if you use KNN!
+
+#### Picking Good Features  
+To figure out recommendations, you had users rate categories of movies.
+What if you had them rate pictures of cats instead? Then you'd find users 
+who rated those pictures similarly. This would probably be a worse 
+recommendations' engine, because the "features" don't have a lot to do with 
+taste in movies!
+
+Or suppose you ask users to rate movies, so you can give them 
+recommendations—but you only ask them to rate Toy Story, Toy Story 2, 
+and Toy Story 3. This won't tell you a lot about the users' movie tastes!
+
+When you're working with KNN, it's really important to pick the right 
+features to compare against. Picking the right features means :  
+
+- Features that directly correlate to the movies you're trying to 
+recommend.  
+- Features that don't have a bias (for example, if you ask the users 
+to only rate comedy movies, that doesn't tell you whether they like 
+action movies).  
+
+Do you think ratings are a good way to recommend movies? Maybe I rated 
+The Wire more highly than House Hunters, but I actually spend more time 
+watching House Hunters. How would you improve this Netflix 
+recommendations system?
+
+Going back to the bakery: can you think of two good and two bad features 
+you could have picked for the bakery? Maybe you need to make more loaves 
+after you advertise in the paper. Or maybe you need to make more loaves 
+on Mondays.
+
+There's no one right answer when it comes to picking good features. 
+You have to think about all the different things you need to consider.
+
+
+## Chapter 11 : Where To Go Next  
+*Page 222-252*
+
+### Trees  
+Let's go back to the binary search example. When a user logs in to Facebook, 
+Facebook has to look through a big array to see if the username exists. 
+We said the fastest way to search through this array is to run binary 
+search. But there's a problem: every time a new user signs up, you 
+insert their username into the array. Then you have to re-sort the array, 
+because binary search only works with sorted arrays. Wouldn't it be nice 
+if you could insert the username into the right slot in the array right 
+away, so you don't have to sort the array afterwards? That's the idea 
+behind the *Binary Search Tree* data structure.
+
+A binary search tree looks like this.
+
+![Binary Search Tree](./11-01.png)
+
+For every node, the nodes to its left are smaller in value, and the nodes
+to its right are larger in value.
